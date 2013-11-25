@@ -17,12 +17,15 @@ class IBANGenerator
 	private $bankAccountNumber;
 	
 	public static function DE($instituteIdentification, $bankAccountNumber) {
-        $ruleFactory = new \IBAN\Rule\RuleFactory('DE');
+		$ruleFactory = new \IBAN\Rule\RuleFactory('DE');
         $generater = new IBANGenerator($ruleFactory, $instituteIdentification, $bankAccountNumber);
         return $generater->generate();
     }
  
     private function __construct($ibanRuleFactory, $instituteIdentification, $bankAccountNumber) {
+        $bankAccountNumber = str_replace(" ", "", $bankAccountNumber);
+        $instituteIdentification = str_replace(" ", "", $instituteIdentification);
+	
     	$this->ibanRuleFactory = $ibanRuleFactory;
     	$this->instituteIdentification = ltrim($instituteIdentification, '0');
     	$this->bankAccountNumber = ltrim($bankAccountNumber, '0');
